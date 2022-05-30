@@ -55,7 +55,7 @@ const Form = ({todos, setTodos, inputText, setInputText, inputDate, setInputDate
             />
             <label className='text-lg font-bold' htmlFor="date_input">When to do?</label>
             <input 
-                className='py-2 border-2 border-gray-400 rounded-md' 
+                className='py-2 border-2 border-gray-400 rounded-md indent-2' 
                 id='date_input'
                 value={inputDate}
                 type="date" 
