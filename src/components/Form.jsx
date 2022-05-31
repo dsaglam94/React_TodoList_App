@@ -37,7 +37,7 @@ const Form = ({todos, setTodos, inputText, setInputText, inputDate, setInputDate
 
   return (
     <div className='w-full p-10'>
-        <form className='w-full max-w-[1100px] flex flex-col items-center justify-between space-y-4 mx-auto md:flex-row md:space-y-0'>
+        <form className='w-full max-w-[1100px] flex flex-col items-center justify-between space-y-2 mx-auto md:flex-row md:space-y-0'>
             <select onChange={handleStatus} className='p-2 rounded-md bg-white border-2 border-yellow-400' name="todos">
                 <option value="all">all</option>
                 <option value="completed">completed</option>
@@ -69,7 +69,7 @@ const Form = ({todos, setTodos, inputText, setInputText, inputDate, setInputDate
             className='bg-yellow-400 p-4 rounded-full group hover:bg-yellow-500 border-none outline-none'
             >
                 <GrAdd
-                    size={25} 
+                    size={20} 
                 />
             </button>
         </form>
