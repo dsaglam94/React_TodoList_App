@@ -1,5 +1,5 @@
 import React, { useState, useSyncExternalStore } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, Navigate } from 'react-router-dom'
 import { UserAuth } from '../context/AuthContext'
 
 const Signup = () => {
@@ -15,7 +15,8 @@ const Signup = () => {
 
       try {
         await signUp(email, password)
-        navigate('/mytodo')
+        navigate('/')
+        // {<Navigate to='/' />}
       } catch (error) {
         console.log(error)
       }
@@ -42,11 +43,17 @@ const Signup = () => {
             <button className='block w-full bg-blue-500 rounded-md py-3 text-xl font-bold uppercase text-gray-50 hover:opacity-90'>Sign Up</button>
           </form>
         <div>
-          <p className='text-gray-700 text-sm'>Already have an account?{' '}
-          <Link to='/'>
+        <p className='text-blue-500'>
+                  <span className='text-gray-700'>
+                    Already subscribed to Netflix?
+                  </span>{' '}
+                  <Link to='/signin'>Sign In</Link>
+                </p>
+          {/* <p className='text-gray-700 text-sm'>Already have an account?{' '}
+          <Link to='/signin'>
             <span className='text-blue-500 font-bold hover:underline'>Sign in</span>
           </Link>
-            </p>
+            </p> */}
         </div>
         </div>
   )

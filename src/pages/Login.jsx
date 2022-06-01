@@ -16,7 +16,7 @@ const Login = () => {
 
       try {
         await signIn(email, password)
-        navigate('/mytodo')
+        navigate('/')
       } catch (error) {
         console.log(error)
         setError(error.message)
@@ -45,7 +45,7 @@ const Login = () => {
       </form>
     <div>
       <p className='text-gray-700 text-sm'>Don't have an account?{' '}
-      <Link to='/Signup'>
+      <Link to='/signup'>
         <span className='text-blue-500 font-bold hover:underline'>Sign up</span>
       </Link>
         </p>

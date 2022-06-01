@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { AuthContextProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Home from "./pages/Home";
 
 function App() {
 
@@ -14,15 +15,16 @@ function App() {
       <AuthContextProvider>
       <Header />
       <Routes>
+        <Route path='/' element={<Home />}/>
         <Route 
-          path='/Mytodo' 
+          path='/mytodo' 
           element={
             <ProtectedRoute>
               <Mytodo />
             </ProtectedRoute>} 
           />
-        <Route path='/' element={<Login />} />
-        <Route path='/Signup' element={<Signup />} />
+        <Route path='/signin' element={<Login />} />
+        <Route path='/signup' element={<Signup />} />
       </Routes>
       </AuthContextProvider>
     </div>
