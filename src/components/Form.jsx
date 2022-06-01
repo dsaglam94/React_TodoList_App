@@ -1,8 +1,14 @@
 import React from 'react'
 import {GrAdd} from 'react-icons/gr'
 import {nanoid} from 'nanoid'
+import {db} from '../firebase'
+import {UserAuth} from '../context/AuthContext'
+import {arrayUnion, doc, updateDoc} from 'firebase/firestore'
 
 const Form = ({todos, setTodos, inputText, setInputText, inputDate, setInputDate, setStatus}) => {
+
+    const {user} = UserAuth();
+    const todoID = doc(db, 'users', `${user?.email}`)
 
     function handleInputText(e) {
         setInputText(e.target.value)
@@ -16,24 +22,23 @@ const Form = ({todos, setTodos, inputText, setInputText, inputDate, setInputDate
         setStatus(e.target.value)
     }
 
-    function handleCreateTodos(e) {
+    async function handleCreateTodos(e) {
         e.preventDefault();
         if(!inputText || !inputDate) {
             return 
         }
-
-        setTodos([
-            ...todos,{
+        await updateDoc(todoID, {
+            savedTodos: arrayUnion({
                 text: inputText,
                 date: inputDate,
                 completed: false,
                 id: nanoid()
-            }
-        ])
+            })
+        })
+
         setInputText('')
         setInputDate('')
     }
-
 
   return (
     <div className='w-full p-10'>

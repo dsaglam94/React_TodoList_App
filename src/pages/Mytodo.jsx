@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Form from '../components/Form';
 import Todolist from '../components/Todolist';
+import { UserAuth } from '../context/AuthContext';
+import { db } from '../firebase';
+import { updateDoc, doc, onSnapshot } from 'firebase/firestore';
 
 const Mytodo = () => {
 
+  const {user} = UserAuth();
 
   const [todos, setTodos] = useState([]);
   const [inputText, setInputText] = useState('');
@@ -11,16 +15,37 @@ const Mytodo = () => {
   const [status, setStatus] = useState('all')
   const [filteredTodos, setFilteredTodos] = useState([])
 
-  function handleMarkTodos(id) {
-    setTodos(prevTodos => prevTodos.map(todo => {
-        return id === todo.id ? {...todo, completed: !todo.completed} : todo
-    }))
+  useEffect(() => {
+    onSnapshot(doc(db, 'users', `${user?.email}`), (doc) => {
+      setTodos(doc.data()?.savedTodos);
+    });
+  }, [user?.email]);
+
+const todoRef = doc(db, 'users', `${user?.email}`)
+
+async function handleMarkTodos(id) {
+  
+  try {
+    const result = todos.map((todo) => todo.id === id ? {...todo, completed: !todo.completed} : todo)
+    await updateDoc(todoRef, {
+        savedTodos: result
+    })
+  } catch (error) {
+      console.log(error)
+  }
 }
 
-function handleDeleteTodos(id) {
-  setTodos(prevTodos => prevTodos.filter(todo => {
-      return id !== todo.id 
-  }))
+async function handleDeleteTodos(id) {
+  
+  try {
+        const result = todos.filter((todo) => todo.id !== id)
+        await updateDoc(todoRef, {
+            savedTodos: result
+        })
+      } catch (error) {
+          console.log(error)
+      }
+
 }
 
 function filterTodos() {
@@ -36,28 +61,9 @@ function filterTodos() {
   }
 }
 
-useEffect( () => {
-  getLocalTodos();
-},[])
-
 useEffect(() => {
   filterTodos()
-  saveLocalTodos()
 }, [todos, status])
-
-
-const saveLocalTodos = () => {
-  localStorage.setItem('todos', JSON.stringify(todos))
-}
-
-const getLocalTodos = () => {
-  if (localStorage.getItem('todos') === null) {
-    localStorage.setItem('todos', JSON.stringify([]))
-  } else {
-    let todoLocal = JSON.parse(localStorage.getItem('todos'));
-    setTodos(todoLocal)
-  }
-}
 
   return (
     <div>
